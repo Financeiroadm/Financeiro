@@ -2305,6 +2305,7 @@ export default function ClientesPainel() {
   const [paisFiltro, setPaisFiltro] = useState("Todos");
   const [abaAtiva, setAbaAtiva] = useState("Início");
   const [statusFiltro, setStatusFiltro] = useState("Ativos");
+  const [periodicidadeFiltro, setPeriodicidadeFiltro] = useState("Todas");
   const [mesFiltro, setMesFiltro] = useState(MES_ATUAL);
   const [editando, setEditando] = useState(null);
   const [rascunho, setRascunho] = useState(null);
@@ -2407,6 +2408,7 @@ export default function ClientesPainel() {
     .filter((c) => (abaAtiva === "Renovações" ? c.periodicidade !== "Mensal" : true))
     .filter((c) => (paisFiltro === "Todos" ? true : c.pais === paisFiltro))
     .filter((c) => (statusFiltro === "Todos" ? true : statusFiltro === "Ativos" ? c.ativo : !c.ativo))
+    .filter((c) => (periodicidadeFiltro === "Todas" ? true : c.periodicidade === periodicidadeFiltro))
     .filter((c) => {
       const q = busca.trim().toLowerCase();
       if (!q) return true;
@@ -2920,6 +2922,18 @@ export default function ClientesPainel() {
                 style={statusFiltro === s ? { background: ORANGE } : {}}
               >
                 {s}
+              </button>
+            ))}
+          </div>
+          <div style={{ display: "flex", gap: 6 }}>
+            {["Todas", "Mensal", "Semestral", "Anual"].map((p) => (
+              <button
+                key={p}
+                onClick={() => setPeriodicidadeFiltro(p)}
+                className={`pill-filtro ${periodicidadeFiltro === p ? "ativa" : ""}`}
+                style={periodicidadeFiltro === p ? { background: NAVY } : {}}
+              >
+                {p}
               </button>
             ))}
           </div>
